@@ -1,0 +1,14 @@
+---
+- name: Update servers
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Run apt upgrade
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: run dist-upgrade
+      apt:
+        upgrade: dist
