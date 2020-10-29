@@ -1,3 +1,3 @@
-# Ansible playbooks
+# Ansible thingies
 
 WIP
