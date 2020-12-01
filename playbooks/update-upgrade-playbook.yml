@@ -9,6 +9,10 @@
         upgrade: yes
         update_cache: yes
 
-    - name: run dist-upgrade
+    - name: Run dist-upgrade
       apt:
         upgrade: dist
+    
+    - name: Run autoremove
+      apt:
+        autoremove: yes
