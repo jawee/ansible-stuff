@@ -1,0 +1,16 @@
+---
+- name: Install newer version of VIM
+  hosts: all
+  become: yes
+
+  tasks:
+#  sudo add-apt-repository ppa:jonathonf/vim
+    - name: Add jonathonf/vim repository 
+      apt_repository:
+        repo: ppa:jonathonf/vim
+
+    - name: install vim 
+      apt:
+        name: vim
+        state: present
+        update_cache: yes
