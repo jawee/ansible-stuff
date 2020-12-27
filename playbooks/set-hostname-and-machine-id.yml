@@ -5,6 +5,11 @@
   #   hostname: test
   become: true
   tasks:
+    - name: Hostname is not set
+      fail: 
+        msg: The variable 'hostname' is not defined. Should be ran with --extra-vars "hostname=myNewHostName"
+      when: hostname is undefined
+
     - name: Delete machine-id files
       file: 
         path: "{{ item }}"
