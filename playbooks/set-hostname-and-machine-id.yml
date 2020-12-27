@@ -1,0 +1,42 @@
+---
+- name: Set hostname and regenerate machine id.
+  hosts: all
+  # vars:
+  #   hostname: test
+  become: true
+  tasks:
+    - name: Delete machine-id files
+      file: 
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /var/lib/dbus/machine-id
+        - /etc/machine-id
+    
+    - name: Generate new machine id
+      shell: dbus-uuidgen --ensure=/etc/machine-id
+
+    - name: Create machine-id symlink
+      file:
+        src: /etc/machine-id
+        dest: /var/lib/dbus/machine-id
+        owner: root
+        group: root
+        state: link
+
+    - name: Generate SSH server keys
+      shell: |
+        ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa -y
+        ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa -y 
+        ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa -b 521 -y
+
+    - name: Setting hostname
+      shell: | 
+        source /etc/lsb-release
+        sed -i "s/$HOSTNAME/{{ hostname }}/g" /etc/hosts
+        sed -i "s/$HOSTNAME/{{ hostname }}/g" /etc/hostname
+        hostnamectl set-hostname {{ hostname }}
+    
+    - name: Reboot machine
+      reboot:
+      
