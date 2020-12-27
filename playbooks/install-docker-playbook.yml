@@ -41,4 +41,14 @@
         name: docker
         state: started
         enabled: yes
+    
+    - name: Make sure group "docker" exists
+      group:
+        name: docker
+        state: present
+
+    - name: Add user to group "docker"
+      user:
+        name: figge
+        group: docker
 
