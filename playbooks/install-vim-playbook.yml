@@ -4,7 +4,6 @@
   become: yes
 
   tasks:
-#  sudo add-apt-repository ppa:jonathonf/vim
     - name: Add jonathonf/vim repository 
       apt_repository:
         repo: ppa:jonathonf/vim
@@ -13,4 +12,13 @@
       apt:
         update_cache: yes
         name: vim
-        state: present
+        state: latest
+    
+    - name: Copy over .vimrc
+      template: src=../templates/.vimrc dest=/home/figge/.vimrc
+
+    - name: Set permissions on .vimrc
+      file:
+        path: /home/figge/.vimrc
+        owner: figge
+        group: figge
