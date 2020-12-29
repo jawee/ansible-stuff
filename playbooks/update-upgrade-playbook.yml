@@ -6,13 +6,13 @@
   tasks:
     - name: Run apt upgrade
       apt:
-        upgrade: yes
-        update_cache: yes
+        upgrade: 'yes'
+        update_cache: 'yes'
 
     - name: Run dist-upgrade
       apt:
-        upgrade: dist
+        upgrade: 'dist'
     
     - name: Run autoremove
       apt:
-        autoremove: yes
+        autoremove: 'yes'
