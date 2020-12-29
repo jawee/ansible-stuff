@@ -4,8 +4,9 @@ proxmox-nginxproxy #192.168.1.210
 dev-ubuntu-srv #192.168.1.179
 proxmox-docker #192.168.1.148
 proxmox-wireguard #192.168.1.84
+proxmox-docker-prod #192.168.1.146
 
-[proxmox-nuc]
+[proxmox_nuc]
 proxmox-nuc-pihole #192.168.1.172
 
 [linode]
