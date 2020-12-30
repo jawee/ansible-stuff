@@ -15,7 +15,7 @@
         state: latest
     
     - name: Copy over .vimrc
-      template: src=../templates/.vimrc dest=/home/figge/.vimrc
+      template: src=../files/.vimrc dest=/home/figge/.vimrc
 
     - name: Set permissions on .vimrc
       file:
