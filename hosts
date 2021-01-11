@@ -11,3 +11,7 @@ proxmox-nuc-pihole #192.168.1.172
 
 [linode]
 jawee.se
+
+[test]
+#192.168.1.90
+proxmox-test
