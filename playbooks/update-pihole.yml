@@ -1,5 +1,5 @@
 - name: Update pihole
-  hosts: "*"
+  hosts: proxmox-nuc-pihole
   become: true
   tasks:
     - name: pihole update
