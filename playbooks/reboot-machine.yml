@@ -1,6 +1,6 @@
 ---
 - name: Reboot servers
-  hosts: all:!dev-ubuntu-srv
+  hosts: all
   become: yes
 
   tasks:
