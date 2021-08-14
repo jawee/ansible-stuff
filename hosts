@@ -16,3 +16,6 @@ jawee.se
 [test]
 #192.168.1.90
 proxmox-test
+
+[localhost]
+localhost ansible_connection=local
