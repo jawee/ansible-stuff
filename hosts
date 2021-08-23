@@ -14,8 +14,5 @@ proxmox-nuc-pihole #192.168.1.172
 jawee.se
 
 [test]
-#192.168.1.90
 proxmox-test
 
-[localhost]
-localhost ansible_connection=local
