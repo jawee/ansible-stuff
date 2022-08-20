@@ -8,7 +8,8 @@
       apt:
         pkg:
           - ocl-icd-libopencl1
-          - beignet-opencl-icd
+            # below should be commented back in when it's available on 22.04
+          # - beignet-opencl-icd 
         state: present
         update_cache: yes
         cache_valid_time: 3600
