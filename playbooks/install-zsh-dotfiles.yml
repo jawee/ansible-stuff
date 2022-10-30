@@ -37,8 +37,8 @@
     - name: Remove .zshrc if it exists and is not a stowed file
       file:
         path: "{{ lookup('env', 'HOME') }}/.zshrc"
-        state: remove
-      when: file_data.stat.islnk is defined and sym.stat.islnk == False
+        state: absent
+      when: file_data.stat.islnk is defined and file_data.stat.islnk == False
 
     - name: Stow dotfiles
       shell: cd $HOME/.dotfiles/wsl-ubuntu && ./install
