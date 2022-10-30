@@ -3,7 +3,7 @@
   tasks:
     - name: clone dotfiles
       ansible.builtin.git:
-        repo: 'https://github.com/jawee/.dotfiles.git'
+        repo: 'git@github.com:jawee/.dotfiles.git'
         dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
 
     - name: install stow, zsh, fzf
