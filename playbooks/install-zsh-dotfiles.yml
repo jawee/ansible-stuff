@@ -14,9 +14,6 @@
           - fzf
       become: true
 
-    # - name: Change shell to zsh
-    #   shell: chsh -s $(which zsh)
-    #   become: true
     - name: Change shell
       user:
         name: figge
@@ -31,6 +28,17 @@
       ansible.builtin.git:
         repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
         dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+
+    - name: Checking if .zshrc already exists
+      stat:
+        path: "{{ lookup('env', 'HOME') }}/.zshrc"
+      register: file_data
+
+    - name: Remove .zshrc if it exists and is not a stowed file
+      file:
+        path: "{{ lookup('env', 'HOME') }}/.zshrc"
+        state: remove
+      when: file_data.stat.islnk is defined and sym.stat.islnk == False
 
     - name: Stow dotfiles
       shell: cd $HOME/.dotfiles/wsl-ubuntu && ./install
