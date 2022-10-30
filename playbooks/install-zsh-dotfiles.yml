@@ -6,10 +6,11 @@
         repo: 'https://github.com/jawee/.dotfiles.git'
         dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
 
-    - name: install build dependencies
+    - name: install stow and zsh
       ansible.builtin.apt:
         pkg:
           - stow
+          - zsh
       become: true
 
     - name: Change shell to zsh
