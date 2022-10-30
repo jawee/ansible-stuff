@@ -1,0 +1,29 @@
+- name: Install zsh and dotfiles
+  hosts: "*"
+  tasks:
+    - name: clone dotfiles
+      ansible.builtin.git:
+        repo: 'https://github.com/jawee/.dotfiles.git'
+        dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
+
+    - name: install build dependencies
+      ansible.builtin.apt:
+        pkg:
+          - stow
+      become: true
+
+    - name: Change shell to zsh
+      shell: chsh -s $(which zsh)
+      tags: *tags_for_zsh_tasks
+
+    - name: Oh-My-Zsh
+      shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
+      become_user: figge
+
+    - name: Install zsh-autosuggestions
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+        dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+
+    - name: Stow dotfiles
+      shell: cd $HOME/.dotfiles/wsl-ubuntu && ./install
