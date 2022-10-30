@@ -18,9 +18,3 @@
         src: "../files/ssh/id_rsa.pub"
         dest: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
         mode: 0600
-
-    - name: Set authorized key took from file
-      authorized_key:
-        user: "{{ lookup('env', 'USER') }}"
-        state: present
-        key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
