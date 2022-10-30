@@ -20,14 +20,21 @@
         shell: /bin/zsh
       become: true
 
+    - name: Check if oh-my-zsh is already installed
+      stat:
+        path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh"
+      register: oh_my_zsh
+
     - name: Oh-My-Zsh
       shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
       become_user: figge
+      when: oh_my_zsh.stat.exists == False
 
     - name: Install zsh-autosuggestions
       ansible.builtin.git:
         repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
         dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+      when: oh_my_zsh.stat.exists == False
 
     - name: Checking if .zshrc already exists
       stat:
