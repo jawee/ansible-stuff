@@ -1,0 +1,19 @@
+---
+- name: Install golang
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Add golang backports ppa
+      apt_repository:
+        repo: 'ppa:longsleep/golang-backports'
+        state: present
+
+    - name: Update repositories cache and install golang
+      apt:
+        name: golang
+        state: present
+        update_cache: yes
+
+    - name: Install gopls
+      command: go install golang.org/x/tools/gopls@latest
