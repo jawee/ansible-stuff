@@ -4,16 +4,19 @@
   become: yes
 
   tasks:
-    - name: Add golang backports ppa
-      apt_repository:
-        repo: 'ppa:longsleep/golang-backports'
-        state: present
+    - name: Get file
+      command: curl -OL https://go.dev/dl/go1.19.3.linux-amd64.tar.gz
 
-    - name: Update repositories cache and install golang
-      apt:
-        name: golang
-        state: present
-        update_cache: yes
+    - name: Remove old install if exists
+      file:
+        state: absent
+        path: /usr/local/go
+
+    - name: Install
+      command: tar -C /usr/local -xzf go1.19.3.linux-amd64.tar.gz
+
+    - name: Remove archive
+      command: rm go1.19.3.linux-amd64.tar.gz
 
     - name: Install gopls
       command: go install golang.org/x/tools/gopls@latest
