@@ -1,10 +1,12 @@
 - name: Install neovim
   hosts: "*"
   tasks:
+
     - name: clone neovim
       ansible.builtin.git:
         repo: 'https://github.com/neovim/neovim.git'
         dest: "{{ lookup('env', 'HOME') }}/neovim"
+        update: yes
 
     - name: install build dependencies
       ansible.builtin.apt:
@@ -23,12 +25,19 @@
           - doxygen
       become: true
 
+    - name: Check if Plug is already installed
+      stat:
+        path: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/plug.vim"
+      register: plug_file
+
     - name: install plug
       ansible.builtin.shell: |
         sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+      when: plug_file.stat.exists == False
 
     - name: build neovim
       shell: "cd {{ lookup('env', 'HOME') }}/neovim && make -j 20"
+      become: true
 
     - name: install neovim
       become: true
