@@ -26,7 +26,7 @@
       register: oh_my_zsh
 
     - name: Oh-My-Zsh
-      shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
       become_user: figge
       when: oh_my_zsh.stat.exists == False
 
@@ -48,4 +48,4 @@
       when: file_data.stat.islnk is defined and file_data.stat.islnk == False
 
     - name: Stow dotfiles
-      shell: cd $HOME/.dotfiles/wsl-ubuntu && ./install
+      shell: cd $HOME/.dotfiles/ubuntu && ./install
