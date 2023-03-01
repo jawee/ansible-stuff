@@ -5,7 +5,7 @@
 
   tasks:
     - name: Get file
-      command: curl -OL https://go.dev/dl/go1.19.4.linux-amd64.tar.gz
+      command: curl -OL https://go.dev/dl/go1.20.1.linux-amd64.tar.gz
 
     - name: Remove old install if exists
       file:
@@ -13,10 +13,10 @@
         path: /usr/local/go
 
     - name: Install
-      command: tar -C /usr/local -xzf go1.19.4.linux-amd64.tar.gz
+      command: tar -C /usr/local -xzf go1.20.1.linux-amd64.tar.gz
 
     - name: Remove archive
-      command: rm go1.19.4.linux-amd64.tar.gz
+      command: rm go1.20.1.linux-amd64.tar.gz
 
     - name: Install gopls
       command: go install golang.org/x/tools/gopls@latest
