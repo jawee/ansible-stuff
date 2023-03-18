@@ -2,6 +2,12 @@
   hosts: "*"
   tasks:
 
+    - name: Remove neovim
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/neovim"
+        state: absent
+      become: true
+
     - name: clone neovim
       ansible.builtin.git:
         repo: 'https://github.com/neovim/neovim.git'
