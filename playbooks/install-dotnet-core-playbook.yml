@@ -14,9 +14,9 @@
         state: present
         update_cache: yes
 
-    - name: Install dotnet-sdk-6.0
+    - name: Install dotnet-sdk-7.0
       apt:
-        name: dotnet-sdk-6.0
+        name: dotnet-sdk-7.0
         state: present
 
 

@@ -4,19 +4,16 @@
   become: yes
 
   tasks:
-    - name: Get file
-      command: curl -OL https://go.dev/dl/go1.20.1.linux-amd64.tar.gz
-
     - name: Remove old install if exists
       file:
         state: absent
         path: /usr/local/go
 
-    - name: Install
-      command: tar -C /usr/local -xzf go1.20.1.linux-amd64.tar.gz
-
-    - name: Remove archive
-      command: rm go1.20.1.linux-amd64.tar.gz
+    - name: Download and install
+      unarchive:
+        src: https://go.dev/dl/go1.20.2.linux-amd64.tar.gz
+        dest: /usr/local
+        remote_src: yes 
 
     - name: Install gopls
-      command: go install golang.org/x/tools/gopls@latest
+      command: /usr/local/go/bin/go install golang.org/x/tools/gopls@latest
