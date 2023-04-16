@@ -2,19 +2,13 @@
   hosts: "*"
   tasks:
 
-    - name: Remove neovim
-      file:
-        path: "{{ lookup('env', 'HOME') }}/neovim"
-        state: absent
-      become: true
-
-    - name: clone neovim
+    - name: Clone neovim
       git:
         repo: 'https://github.com/neovim/neovim.git'
         dest: "{{ lookup('env', 'HOME') }}/neovim"
         update: yes
 
-    - name: install build dependencies
+    - name: Install build dependencies
       ansible.builtin.apt:
         pkg:
           - ninja-build
@@ -36,15 +30,15 @@
         path: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/autoload/plug.vim"
       register: plug_file
 
-    - name: install plug
+    - name: Install plug
       shell: |
         sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
       when: plug_file.stat.exists == False
 
-    - name: build neovim
+    - name: Build neovim
       shell: "cd {{ lookup('env', 'HOME') }}/neovim && make -j 20"
       become: true
 
-    - name: install neovim
+    - name: Install neovim
       become: true
       shell: "cd {{ lookup('env', 'HOME') }}/neovim && make install"
