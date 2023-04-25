@@ -1,5 +1,6 @@
 - name: Install neovim
   hosts: "*"
+  gather_facts: true
   tasks:
 
     - name: Clone neovim
@@ -9,7 +10,7 @@
         update: yes
         force: yes
 
-    - name: Install build dependencies
+    - name: Install build dependencies (Ubuntu)
       ansible.builtin.apt:
         pkg:
           - ninja-build
@@ -25,6 +26,17 @@
           - curl
           - doxygen
       become: true
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install build dependencies (MacOS)
+      homebrew:
+        name: 
+          - ninja
+          - cmake 
+          - gettext 
+          - curl
+        state: present
+      when: ansible_distribution == 'MacOSX'
 
     - name: Check if Plug is already installed
       stat:
