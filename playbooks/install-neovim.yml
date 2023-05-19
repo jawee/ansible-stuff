@@ -48,6 +48,10 @@
         sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
       when: plug_file.stat.exists == False
 
+    - name: Clean neovim build
+      shell: "cd {{ lookup('env', 'HOME')}}/neovim && make clean && make distclean"
+      become: true
+
     - name: Build neovim
       shell: "cd {{ lookup('env', 'HOME') }}/neovim && make -j 20"
       become: true
