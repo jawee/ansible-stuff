@@ -3,15 +3,35 @@
   hosts: all
   become: yes
 
+  vars:
+    version : "latest"
+    arch: amd64
+    os: linux
+
+    latest_version_url: https://golang.org/VERSION?m=text
+    archive_name: "{{ filename_prefix[0] }}.{{ os }}-{{ arch }}.tar.gz"
+    download_url: https://dl.google.com/go/{{ archive_name }}
+    download_url: https://go.dev/dl/{{ archive_name }}
+
   tasks:
+    - name: Get filename prefix with latest version
+      set_fact:
+        filename_prefix: "{{ lookup('url', latest_version_url, split_lines=false) | split('\n') }}"
+      when: version == "latest"
+
+    - name: Get filename prefix with fixed version
+      set_fact:
+        filename_prefix: go{{ version }}
+      when: version != "latest"
+
     - name: Remove old install if exists
       file:
         state: absent
         path: /usr/local/go
 
-    - name: Download and install
+    - name: Download and install {{ archive_name }}
       unarchive:
-        src: https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+        src: "{{ download_url }}"
         dest: /usr/local
         remote_src: yes 
 
