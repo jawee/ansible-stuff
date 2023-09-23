@@ -10,7 +10,7 @@
 
     latest_version_url: https://golang.org/VERSION?m=text
     archive_name: "{{ filename_prefix[0] }}.{{ os }}-{{ arch }}.tar.gz"
-    download_url: https://dl.google.com/go/{{ archive_name }}
+    # download_url: https://dl.google.com/go/{{ archive_name }}
     download_url: https://go.dev/dl/{{ archive_name }}
 
   tasks:
