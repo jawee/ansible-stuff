@@ -3,7 +3,7 @@
 
   tasks:
     - name: nodesource script
-      shell: curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash -
+      shell: curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
       become: true
 
     - name: install node
