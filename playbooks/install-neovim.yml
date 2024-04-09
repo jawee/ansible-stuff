@@ -32,10 +32,11 @@
       homebrew:
         name: 
           - ninja
-          - cmake 
+          # - cmake  #disabled, fails when ran
           - gettext 
           - curl
         state: present
+        update_homebrew: true
       when: ansible_distribution == 'MacOSX'
 
     - name: Check if Plug is already installed
