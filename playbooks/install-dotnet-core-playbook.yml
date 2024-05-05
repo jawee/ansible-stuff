@@ -4,20 +4,18 @@
   become: yes
 
   tasks:
-    - name: Install packages-microsoft-prod.deb 
+    - name: Install dotnet6
       apt:
-        deb: https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb 
-
-    - name: Update repositories cache and install apt-transport-https
-      apt:
-        name: apt-transport-https
+        name: dotnet6
         state: present
         update_cache: yes
 
-    - name: Install dotnet-sdk-7.0
+    - name: Install dotnet7
       apt:
-        name: dotnet-sdk-7.0
+        name: dotnet7
         state: present
 
-
-
+    - name: Install dotnet8
+      apt:
+        name: dotnet8
+        state: present
