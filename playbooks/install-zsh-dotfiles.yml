@@ -3,8 +3,8 @@
   tasks:
     - name: clone dotfiles
       ansible.builtin.git:
-        repo: 'git@github.com:jawee/.dotfiles.git'
-        dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
+        repo: 'git@github.com:jawee/.new-dotfiles.git'
+        dest: "{{ lookup('env', 'HOME') }}/.new-dotfiles"
 
     - name: install stow, zsh, fzf
       ansible.builtin.apt:
@@ -48,4 +48,4 @@
       when: file_data.stat.islnk is defined and file_data.stat.islnk == False
 
     - name: Stow dotfiles
-      shell: cd $HOME/.dotfiles/ubuntu && ./install
+      shell: cd $HOME/.new-dotfiles && ./install-wsl-ubuntu
