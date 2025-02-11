@@ -44,9 +44,9 @@
       become: true
 
     - name: Build neovim
-      shell: "cd {{ lookup('env', 'HOME') }}/neovim && make -j 20"
+      shell: "CMAKE_BUILD_TYPE=RelWithDebInfo cd {{ lookup('env', 'HOME') }}/neovim && make -j 20"
       become: true
 
     - name: Install neovim
       become: true
-      shell: "cd {{ lookup('env', 'HOME') }}/neovim && make install"
+      shell: "CMAKE_BUILD_TYPE=RelWithDebInfo cd {{ lookup('env', 'HOME') }}/neovim && make install"
