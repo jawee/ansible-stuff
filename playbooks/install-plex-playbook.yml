@@ -16,4 +16,4 @@
 
     - name: Install Plex
       apt:
-        deb: https://downloads.plex.tv/plex-media-server-new/1.41.7.9795-b8182f5e6/debian/plexmediaserver_1.41.7.9795-b8182f5e6_amd64.deb
+        deb: https://downloads.plex.tv/plex-media-server-new/1.41.8.9834-071366d65/debian/plexmediaserver_1.41.8.9834-071366d65_amd64.deb
