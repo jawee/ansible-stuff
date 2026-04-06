@@ -1,0 +1,19 @@
+---
+- name: Set timezone on Ubuntu
+  hosts: all
+  become: yes
+  vars:
+    timezone: "Europe/Stockholm"
+  tasks:
+    - name: Set system timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
+    - name: Verify timezone is set correctly
+      ansible.builtin.command: timedatectl
+      register: tz_status
+      changed_when: false
+
+    - name: Display timezone configuration
+      ansible.builtin.debug:
+        msg: "{{ tz_status.stdout_lines }}"
