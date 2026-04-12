@@ -2,19 +2,19 @@
   hosts: "*"
   tasks:
     - name: Ensure .ssh directory exists.
-      file:
+      ansible.builtin.file:
         dest: "{{ lookup('env', 'HOME') }}/.ssh"
-        mode: 0700
+        mode: '0700'
         state: directory
 
     - name: Install ssh key
-      copy:
-        src: "../files/ssh/id_rsa"
+      ansible.builtin.copy:
+        src: "{{ (playbook_dir + '/../files/ssh/id_rsa') | realpath }}"
         dest: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
-        mode: 0600
+        mode: '0600'
 
     - name: Install ssh public key
-      copy:
-        src: "../files/ssh/id_rsa.pub"
+      ansible.builtin.copy:
+        src: "{{ (playbook_dir + '/../files/ssh/id_rsa.pub') | realpath }}"
         dest: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
-        mode: 0600
+        mode: '0600'

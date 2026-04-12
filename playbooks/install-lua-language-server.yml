@@ -11,7 +11,7 @@
 
     - name: Install lua-language-server (MacOS)
       when: ansible_distribution == 'MacOSX'
-      homebrew:
+      community.general.homebrew:
         name: lua-language-server
         state: present
         update_homebrew: true
@@ -21,8 +21,8 @@
       ansible.builtin.git:
         repo: 'https://github.com/LuaLS/lua-language-server'
         dest: "{{ lookup('env', 'HOME') }}/lua-language-server"
-        update: yes
-        force: yes
+        update: true
+        force: true
         version: master
 
     - name: Ensure make.sh is executable (Ubuntu)
@@ -33,8 +33,9 @@
 
     - name: Build and install (Ubuntu)
       when: ansible_distribution == 'Ubuntu'
-      shell: "cd {{ lookup('env', 'HOME') }}/lua-language-server && ./make.sh"
+      ansible.builtin.shell: "cd {{ lookup('env', 'HOME') }}/lua-language-server && ./make.sh"
       become: true
+      # noqa no-changed-when
 
     - name: Make lua-language-server usable by all users (Ubuntu)
       when: ansible_distribution == 'Ubuntu'
@@ -58,4 +59,3 @@
         dest: /usr/local/bin/lua-language-server
         state: link
       become: true
-

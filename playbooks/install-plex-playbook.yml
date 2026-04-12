@@ -1,19 +1,19 @@
 ---
 - name: Install Plex and HDR packages.
   hosts: proxmox-plex
-  become: yes
+  become: true
 
   tasks:
     - name: Update repositories cache and install additional packages
-      apt:
+      ansible.builtin.apt:
         pkg:
           - ocl-icd-libopencl1
             # below should be commented back in when it's available on 22.04
-          # - beignet-opencl-icd 
+          # - beignet-opencl-icd
         state: present
-        update_cache: yes
+        update_cache: true
         cache_valid_time: 3600
 
     - name: Install Plex
-      apt:
+      ansible.builtin.apt:
         deb: https://downloads.plex.tv/plex-media-server-new/1.43.1.10611-1e34174b1/debian/plexmediaserver_1.43.1.10611-1e34174b1_amd64.deb

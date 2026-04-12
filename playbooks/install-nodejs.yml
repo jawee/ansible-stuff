@@ -2,13 +2,28 @@
   hosts: all
 
   tasks:
-    - name: nodesource script
-      shell: curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+    - name: Nodesource 24.x download
+      ansible.builtin.get_url:
+        url: https://deb.nodesource.com/setup_24.x
+        dest: /tmp/
+        mode: '0755'
       become: true
 
-    - name: install node
+    - name: Execute setup 24.x script.
+      ansible.builtin.command: /tmp/setup_24.x
+      become: true
+      # noqa no-changed-when
+
+    - name: Remove setup 24.x script
+      ansible.builtin.file:
+        path: /tmp/setup_24.x
+        state: absent
+      become: true
+
+    - name: Install node
       ansible.builtin.apt:
         name: nodejs
         state: latest
         update_cache: true
       become: true
+      # noqa package-latest

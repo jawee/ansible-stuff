@@ -1,26 +1,29 @@
 ---
 - name: Install newer version of VIM
   hosts: all
-  become: yes
+  become: true
 
   tasks:
-    - name: Add jonathonf/vim repository 
-      apt_repository:
+    - name: Add jonathonf/vim repository
+      ansible.builtin.apt_repository:
         repo: ppa:jonathonf/vim
 
-    - name: install vim 
-      apt:
-        update_cache: yes
+    - name: Install vim
+      ansible.builtin.apt:
+        update_cache: true
         name: vim
         state: latest
-    
+      # noqa package-latest
+
     - name: Copy over .vimrc
-      template: 
-        src: "../files/.vimrc" 
+      ansible.builtin.template:
+        src: "{{ (playbook_dir + '/../files/.vimrc') | realpath }}"
         dest: "/home/figge/.vimrc"
+        mode: '0644'
 
     - name: Set permissions on .vimrc
-      file:
+      ansible.builtin.file:
         path: /home/figge/.vimrc
         owner: figge
         group: figge
+        mode: '0644'

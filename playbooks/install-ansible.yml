@@ -5,13 +5,14 @@
   tasks:
 
     - name: Add apt-repository ppa:ansible/ansible
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: ppa:ansible/ansible
       when: ansible_distribution == 'Ubuntu'
 
     - name: Install Ansible
       ansible.builtin.apt:
-        update_cache: yes
+        update_cache: true
         name: ansible
         state: latest
       when: ansible_distribution == 'Ubuntu'
+      # noqa package-latest

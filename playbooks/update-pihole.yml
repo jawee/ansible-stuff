@@ -1,6 +1,7 @@
-- name: Update pihole
+- name: Update Pihole
   hosts: proxmox-nuc-pihole
   become: true
   tasks:
-    - name: pihole update
-      shell: pihole -up
+    - name: Pihole Up
+      ansible.builtin.command: pihole -up
+      # noqa no-changed-when

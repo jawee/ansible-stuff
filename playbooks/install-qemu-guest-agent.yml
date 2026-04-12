@@ -1,9 +1,10 @@
-- name: install latest qemu-guest-agent
+- name: Install latest qemu-guest-agent
   hosts: "*"
   tasks:
-    - name: install qemu-guest-agent
+    - name: Install qemu-guest-agent
       ansible.builtin.apt:
         name: qemu-guest-agent
         state: latest
         update_cache: true
       become: true
+      # noqa package-latest

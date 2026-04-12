@@ -7,16 +7,16 @@
       ansible.builtin.git:
         repo: 'https://github.com/neovim/neovim.git'
         dest: "{{ lookup('env', 'HOME') }}/neovim"
-        update: yes
-        force: yes
+        update: true
+        force: true
         version: master
 
     - name: Checkout neovim stable
       ansible.builtin.git:
         repo: 'https://github.com/neovim/neovim.git'
         dest: "{{ lookup('env', 'HOME') }}/neovim"
-        update: yes
-        force: yes
+        update: true
+        force: true
         version: stable
 
     - name: Install build dependencies (Ubuntu)
@@ -38,24 +38,27 @@
       when: ansible_distribution == 'Ubuntu'
 
     - name: Install build dependencies (MacOS)
-      homebrew:
-        name: 
+      community.general.homebrew:
+        name:
           - ninja
           # - cmake  #disabled, fails when ran
-          - gettext 
+          - gettext
           - curl
         state: present
         update_homebrew: true
       when: ansible_distribution == 'MacOSX'
 
-    - name: Clean neovim build
-      shell: "cd {{ lookup('env', 'HOME')}}/neovim && make clean && make distclean"
-      become: true
+    # - name: Clean neovim build
+    #   ansible.builtin.shell: "cd {{ lookup('env', 'HOME') }}/neovim && make clean && make distclean"
+    #   become: true
+    #   # noqa no-changed-when
 
     - name: Build neovim
-      shell: "cd {{ lookup('env', 'HOME') }}/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo -j 20"
+      ansible.builtin.shell: "cd {{ lookup('env', 'HOME') }}/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo -j 20"
       become: true
+      # noqa no-changed-when
 
     - name: Install neovim
       become: true
-      shell: "cd {{ lookup('env', 'HOME') }}/neovim && make install CMAKE_BUILD_TYPE=RelWithDebInfo"
+      ansible.builtin.shell: "cd {{ lookup('env', 'HOME') }}/neovim && make install CMAKE_BUILD_TYPE=RelWithDebInfo"
+      # noqa no-changed-when

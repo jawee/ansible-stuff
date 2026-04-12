@@ -1,14 +1,14 @@
 ---
 - name: Install dotnet core SDK
   hosts: all
-  become: yes
+  become: true
 
   tasks:
     - name: Install dotnet6
       ansible.builtin.apt:
         name: dotnet6
         state: present
-        update_cache: yes
+        update_cache: true
 
     - name: Install dotnet7
       ansible.builtin.apt:

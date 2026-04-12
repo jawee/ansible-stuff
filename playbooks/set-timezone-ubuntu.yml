@@ -1,7 +1,7 @@
 ---
 - name: Set timezone on Ubuntu
   hosts: all
-  become: yes
+  become: true
   vars:
     timezone: "Europe/Stockholm"
   tasks:

@@ -1,12 +1,13 @@
 - name: Install zsh and dotfiles
   hosts: "*"
   tasks:
-    - name: clone dotfiles
+    - name: Clone dotfiles
       ansible.builtin.git:
         repo: 'git@github.com:jawee/.new-dotfiles.git'
         dest: "{{ lookup('env', 'HOME') }}/.new-dotfiles"
+      # noqa latest[git]
 
-    - name: install stow, zsh, fzf
+    - name: Install stow, zsh, fzf
       ansible.builtin.apt:
         pkg:
           - stow
@@ -15,37 +16,41 @@
       become: true
 
     - name: Change shell
-      user:
+      ansible.builtin.user:
         name: figge
         shell: /bin/zsh
       become: true
 
     - name: Check if oh-my-zsh is already installed
-      stat:
+      ansible.builtin.stat:
         path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh"
       register: oh_my_zsh
 
     - name: Oh-My-Zsh
-      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      become: true
       become_user: figge
-      when: oh_my_zsh.stat.exists == False
+      when: not oh_my_zsh.stat.exists
+      # noqa no-changed-when
 
     - name: Install zsh-autosuggestions
       ansible.builtin.git:
         repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
         dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
-      when: oh_my_zsh.stat.exists == False
+      # noqa latest[git]
+      when: not oh_my_zsh.stat.exists
 
     - name: Checking if .zshrc already exists
-      stat:
+      ansible.builtin.stat:
         path: "{{ lookup('env', 'HOME') }}/.zshrc"
       register: file_data
 
     - name: Remove .zshrc if it exists and is not a stowed file
-      file:
+      ansible.builtin.file:
         path: "{{ lookup('env', 'HOME') }}/.zshrc"
         state: absent
-      when: file_data.stat.islnk is defined and file_data.stat.islnk == False
+      when: (file_data.stat.islnk | default(False)) == Fals
 
     - name: Stow dotfiles
-      shell: cd $HOME/.new-dotfiles && ./install-wsl-ubuntu
+      ansible.builtin.shell: cd $HOME/.new-dotfiles && ./install-wsl-ubuntu
+      # noqa no-changed-when

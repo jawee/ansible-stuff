@@ -1,7 +1,7 @@
 ---
 - name: Update servers
   hosts: all
-  become: yes
+  become: true
 
   tasks:
     - name: Run apt upgrade
@@ -12,7 +12,7 @@
     - name: Run dist-upgrade
       ansible.builtin.apt:
         upgrade: 'dist'
-    
+
     - name: Run autoremove
       ansible.builtin.apt:
         autoremove: 'yes'
