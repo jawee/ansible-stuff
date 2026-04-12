@@ -1,0 +1,55 @@
+- name: Install neovim
+  hosts: "*"
+  gather_facts: true
+  tasks:
+    - name: Clone repo
+      ansible.builtin.git:
+        repo: 'https://github.com/LuaLS/lua-language-server'
+        dest: "{{ lookup('env', 'HOME') }}/lua-language-server"
+        update: yes
+        force: yes
+        version: master
+
+    - name: Install build dependencies (Ubuntu)
+      when: ansible_distribution == 'Ubuntu'
+      ansible.builtin.apt:
+        pkg:
+          - ninja-build
+      become: true
+
+    - name: Install build dependencies (MacOS)
+      when: ansible_distribution == 'MacOSX'
+      homebrew:
+        name: 
+          - ninja
+        state: present
+        update_homebrew: true
+
+    - name: Ensure make.sh is executable
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/lua-language-server/make.sh"
+        mode: '0755'
+
+    - name: Build and install 
+      shell: "cd {{ lookup('env', 'HOME') }}/lua-language-server && ./make.sh"
+      become: true
+
+    - name: Make lua-language-server usable by all users
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/lua-language-server/bin/lua-language-server"
+        mode: '0755'
+
+    - name: Make log directory world-writable
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/lua-language-server/log"
+        mode: '0777'
+        state: directory
+        recurse: true
+      become: true
+
+    - name: Symlink lua-language-server to /usr/local/bin
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'HOME') }}/lua-language-server/bin/lua-language-server"
+        dest: /usr/local/bin/lua-language-server
+        state: link
+      become: true
