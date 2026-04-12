@@ -7,12 +7,12 @@
     - name: Add apt-repository ppa:ansible/ansible
       ansible.builtin.apt_repository:
         repo: ppa:ansible/ansible
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
 
     - name: Install Ansible
       ansible.builtin.apt:
         update_cache: true
         name: ansible
         state: latest
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
       # noqa package-latest

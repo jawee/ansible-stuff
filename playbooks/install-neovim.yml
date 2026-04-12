@@ -35,7 +35,7 @@
           - curl
           - doxygen
       become: true
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
 
     - name: Install build dependencies (MacOS)
       community.general.homebrew:
@@ -46,7 +46,7 @@
           - curl
         state: present
         update_homebrew: true
-      when: ansible_distribution == 'MacOSX'
+      when: ansible_facts["distribution"] == 'MacOSX'
 
     # - name: Clean neovim build
     #   ansible.builtin.shell: "cd {{ lookup('env', 'HOME') }}/neovim && make clean && make distclean"

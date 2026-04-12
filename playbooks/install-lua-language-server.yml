@@ -3,21 +3,21 @@
   gather_facts: true
   tasks:
     - name: Install build dependencies (Ubuntu)
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
       ansible.builtin.apt:
         pkg:
           - ninja-build
       become: true
 
     - name: Install lua-language-server (MacOS)
-      when: ansible_distribution == 'MacOSX'
+      when: ansible_facts["distribution"] == 'MacOSX'
       community.general.homebrew:
         name: lua-language-server
         state: present
         update_homebrew: true
 
     - name: Clone repo (Ubuntu)
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
       ansible.builtin.git:
         repo: 'https://github.com/LuaLS/lua-language-server'
         dest: "{{ lookup('env', 'HOME') }}/lua-language-server"
@@ -26,25 +26,25 @@
         version: master
 
     - name: Ensure make.sh is executable (Ubuntu)
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
       ansible.builtin.file:
         path: "{{ lookup('env', 'HOME') }}/lua-language-server/make.sh"
         mode: '0755'
 
     - name: Build and install (Ubuntu)
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
       ansible.builtin.shell: "cd {{ lookup('env', 'HOME') }}/lua-language-server && ./make.sh"
       become: true
       # noqa no-changed-when
 
     - name: Make lua-language-server usable by all users (Ubuntu)
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
       ansible.builtin.file:
         path: "{{ lookup('env', 'HOME') }}/lua-language-server/bin/lua-language-server"
         mode: '0755'
 
     - name: Make log directory world-writable (Ubuntu)
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
       ansible.builtin.file:
         path: "{{ lookup('env', 'HOME') }}/lua-language-server/log"
         mode: '0777'
@@ -53,7 +53,7 @@
       become: true
 
     - name: Symlink lua-language-server to /usr/local/bin (Ubuntu)
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Ubuntu'
       ansible.builtin.file:
         src: "{{ lookup('env', 'HOME') }}/lua-language-server/bin/lua-language-server"
         dest: /usr/local/bin/lua-language-server
