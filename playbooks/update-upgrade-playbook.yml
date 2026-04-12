@@ -5,14 +5,14 @@
 
   tasks:
     - name: Run apt upgrade
-      apt:
+      ansible.builtin.apt:
         upgrade: 'yes'
         update_cache: 'yes'
 
     - name: Run dist-upgrade
-      apt:
+      ansible.builtin.apt:
         upgrade: 'dist'
     
     - name: Run autoremove
-      apt:
+      ansible.builtin.apt:
         autoremove: 'yes'

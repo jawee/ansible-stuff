@@ -7,7 +7,7 @@
       become: true
 
     - name: install node
-      apt:
+      ansible.builtin.apt:
         name: nodejs
         state: latest
         update_cache: true

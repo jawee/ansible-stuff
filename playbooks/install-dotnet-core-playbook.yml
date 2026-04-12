@@ -5,17 +5,17 @@
 
   tasks:
     - name: Install dotnet6
-      apt:
+      ansible.builtin.apt:
         name: dotnet6
         state: present
         update_cache: yes
 
     - name: Install dotnet7
-      apt:
+      ansible.builtin.apt:
         name: dotnet7
         state: present
 
     - name: Install dotnet8
-      apt:
+      ansible.builtin.apt:
         name: dotnet8
         state: present
