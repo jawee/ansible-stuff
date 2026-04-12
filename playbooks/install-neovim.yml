@@ -3,12 +3,21 @@
   gather_facts: true
   tasks:
 
-    - name: Clone neovim
-      git:
+    - name: Clone neovim master
+      ansible.builtin.git:
         repo: 'https://github.com/neovim/neovim.git'
         dest: "{{ lookup('env', 'HOME') }}/neovim"
         update: yes
         force: yes
+        version: master
+
+    - name: Checkout neovim stable
+      ansible.builtin.git:
+        repo: 'https://github.com/neovim/neovim.git'
+        dest: "{{ lookup('env', 'HOME') }}/neovim"
+        update: yes
+        force: yes
+        version: stable
 
     - name: Install build dependencies (Ubuntu)
       ansible.builtin.apt:
